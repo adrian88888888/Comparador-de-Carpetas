@@ -7,9 +7,10 @@ logging.basicConfig(level=logging.WARNING, format='%(message)s')
 # logging.basicConfig(level=logging.CRITICAL, format='%(message)s')
 
 # Settings
-OLD_FOLDER          = r'C:\Users\adria\Desktop\Slave Folder....'
-UP_TO_DATE_FOLDER   = r'C:\Users\adria\Desktop\Main Folder.....'
-COMPARE_SUBFOLDERS  = True
+OLD_FOLDER            = r'H:\Parte tecnica de la pc'
+UP_TO_DATE_FOLDER     = r'D:\Parte tecnica de la pc'
+COMPARE_SUBFOLDERS    = True
+SUBFOLDERS_TO_EXCLUDE = {'adria', 'Sistemas Operativos', 'Deprecated'}
 
 def compare_old_folder_to_up_to_date_folder():
     logging.warning('Comparing old folder to up to date folder...')
@@ -27,9 +28,11 @@ def compare_old_folder_to_up_to_date_folder():
 
 def get_filepaths_from(folder):
     logging.warning('-----------------------')
-    logging.warning('Getting list of filepaths from(in old folder): ' + folder)
+    logging.warning('Getting list of filepaths from(inside the old folder): ' + folder)
     filepaths = []
     for current_directory, folders, files in os.walk(folder):
+        [folders.remove(d) for d in list(folders) if d in SUBFOLDERS_TO_EXCLUDE] # agarra la lista folders y le saca todo lo de SUBFOLDERS_TO_EXCLUDE y luego hace walk sobre la lista folders como siempre https://stackoverflow.com/questions/19859840/excluding-directories-in-os-walk
+        logging.warning(files)
         for each_file in files:
             filepath = os.path.join(current_directory, each_file)
             filepaths.append(filepath)

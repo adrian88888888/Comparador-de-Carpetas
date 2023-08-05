@@ -2,15 +2,18 @@ import stat
 import os
 import logging
 
-# logging.basicConfig(level=logging.INFO, format='%(message)s')
-logging.basicConfig(level=logging.WARNING, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format='%(message)s')
+# logging.basicConfig(level=logging.WARNING, format='%(message)s')
 # logging.basicConfig(level=logging.CRITICAL, format='%(message)s')
 
 # Settings
-OLD_FOLDER            = r'H:\Parte tecnica de la pc'
-UP_TO_DATE_FOLDER     = r'D:\Parte tecnica de la pc'
+OLD_FOLDER            = r'H:\La carpeta diferente\Sounds Library Versiones\Sounds Library v0'
+UP_TO_DATE_FOLDER     = r'D:\La carpeta diferente\Sounds Library Versiones\Sounds Library v0'
 COMPARE_SUBFOLDERS    = True
-SUBFOLDERS_TO_EXCLUDE = {'adria', 'Sistemas Operativos', 'Deprecated'}
+# IMPORTANTE: si queres hacer una excepcion de subcarpetas, desomenta la siguiente linea:
+# SUBFOLDERS_TO_EXCLUDE = {'adria', 'Sistemas Operativos', 'Deprecated'}
+# y tambien descomenta la linea: [folders.remove(d) for d in list(folders) if d in SUBFOLDERS_TO_EXCLUDE] # agarra la lista folders y le saca todo lo de SUBFOLDERS_TO_EXCLUDE y luego hace walk sobre la lista folders como siempre https://stackoverflow.com/questions/19859840/excluding-directories-in-os-walk
+# que esta dentro de la funcion get_filepaths_from()
 
 def compare_old_folder_to_up_to_date_folder():
     logging.warning('Comparing old folder to up to date folder...')
@@ -31,8 +34,7 @@ def get_filepaths_from(folder):
     logging.warning('Getting list of filepaths from(inside the old folder): ' + folder)
     filepaths = []
     for current_directory, folders, files in os.walk(folder):
-        [folders.remove(d) for d in list(folders) if d in SUBFOLDERS_TO_EXCLUDE] # agarra la lista folders y le saca todo lo de SUBFOLDERS_TO_EXCLUDE y luego hace walk sobre la lista folders como siempre https://stackoverflow.com/questions/19859840/excluding-directories-in-os-walk
-        logging.warning(files)
+        # [folders.remove(d) for d in list(folders) if d in SUBFOLDERS_TO_EXCLUDE] # agarra la lista folders y le saca todo lo de SUBFOLDERS_TO_EXCLUDE y luego hace walk sobre la lista folders como siempre https://stackoverflow.com/questions/19859840/excluding-directories-in-os-walk
         for each_file in files:
             filepath = os.path.join(current_directory, each_file)
             filepaths.append(filepath)
